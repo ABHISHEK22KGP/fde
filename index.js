@@ -20,7 +20,7 @@ app.set("view engine",'ejs');
 
 // Database work
 const mongoose = require('mongoose');
-const connection = mongoose.connect('mongodb+srv://ABHISHEK22KGP2026:BHI9Jdk1zO3juE4U@cluster0.srcbnno.mongodb.net/1st_backend').then(()=>{
+const connection = mongoose.connect(process.env.MONGO_URI).then(()=>{
     console.log("Connected To DataBase")
 })
 const userSchema = new mongoose.Schema({
