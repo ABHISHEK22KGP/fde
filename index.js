@@ -1,6 +1,7 @@
 // getting express
 const express = require('express');
 const app = express();
+require('dotenv').config();
 
 // getting third party middlware
 const morgan = require('morgan');
