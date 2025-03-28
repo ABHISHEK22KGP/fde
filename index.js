@@ -1,31 +1,50 @@
 // getting express
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
 
 // getting third party middlware
-const morgan = require('morgan')
-app.use(morgan('dev'))
+const morgan = require('morgan');
+app.use(morgan('dev'));
 
 // express cant read post data so to help it 
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 
 // helps to add css and javascript 
-app.use(express.static('public'))
+app.use(express.static(__dirname+'public'));
 
 // helps to add html/ejs file 
-app.set("view engine",'ejs')
+app.set("views",__dirname+"/views");
+app.set("view engine",'ejs');
+
 
 // Database work
-const dbConnection = require('./config/db');
-const userMOdel = require('./models/user');
+const mongoose = require('mongoose');
+const connection = mongoose.connect('mongodb+srv://ABHISHEK22KGP2026:BHI9Jdk1zO3juE4U@cluster0.srcbnno.mongodb.net/1st_backend').then(()=>{
+    console.log("Connected To DataBase")
+})
+const userSchema = new mongoose.Schema({
+    Email:String,
+    Password:String
+})
+const userMOdel = mongoose.model('user',userSchema);
+
+
+
 
 // req to server 
 app.get('/',(req,res)=>{
     res.render('index');
-})
+});
+app.get('/make',async (req,res)=>{
+    const newUser = await userMOdel.create({
+        Email:"bhai@gmail.com",
+        Password:"122njdosk"
+    })
+    res.send(newUser);
+});
 
-// post to server 
+//post to server 
 app.post('/get-form-data',async (req,res)=>{
     console.log(req.body);
     const {Email,password} = req.body;
@@ -41,7 +60,7 @@ app.get('/get-users',(req,res)=>{
         res.send(users);
     })
 });
-// starting the server 
+//starting the server 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
