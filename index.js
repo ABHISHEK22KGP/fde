@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 // helps to add css and javascript 
-app.use(express.static(__dirname+'public'));
+app.use(express.static(__dirname + '/public'));
 
 // helps to add html/ejs file 
 app.set("views",__dirname+"/views");
